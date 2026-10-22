@@ -1,0 +1,33 @@
+# ── 密钥与本地配置（绝对不要提交）────────────────────────────
+config.user.json
+config.run*.json
+.env
+.env.*
+*.key
+*.pem
+secrets/
+
+# ── 生成物与缓存 ───────────────────────────────────────────
+output/
+data/
+*.db
+*.sqlite
+*.sqlite3
+*.log
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ── 系统与编辑器 ───────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# ── 环境与虚拟环境 ─────────────────────────────────────────
+.venv/
+venv/
+env/

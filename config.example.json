@@ -1,0 +1,61 @@
+{
+    "paths":  {
+                  "output_dir":  "output",
+                  "data_dir":  "data",
+                  "log_file":  "output/pipeline.log",
+                  "images_dir":  "output/images",
+                  "db":  "output/pipeline.db"
+              },
+    "plan":  {
+                 "style_preset":  "rebus_cartoon",
+                 "provider":  "llm",
+                 "prompt_style":  "prose",
+                 "llm":  {
+                             "hard_max":  200,
+                             "disable_thinking":  true,
+                             "batch":  4,
+                             "api_key":  "在这里填或用环境变量 HV_LLM_API_KEY",
+                             "model":  "deepseek-chat",
+                             "base_url":  "https://api.deepseek.com/v1"
+                         }
+             },
+    "package":  {
+                    "seed":  42,
+                    "splits":  {
+                                   "train":  0.8,
+                                   "val":  0.1,
+                                   "test":  0.1
+                               },
+                    "export_formats":  [
+                                           "raw",
+                                           "sft_chat",
+                                           "multiple_choice",
+                                           "llava",
+                                           "classification"
+                                       ]
+                },
+    "qc":  {
+               "ocr":  {
+                           "enabled":  true
+                       },
+               "vlm":  {
+                           "provider":  "none"
+                       },
+               "max_retry":  2
+           },
+    "image":  {
+                  "api":  {
+                              "base_url":  "https://api.openai.com/v1",
+                              "size":  "1024x1024",
+                              "api_key":  "在这里填或用环境变量 HV_IMAGE_API_KEY",
+                              "model":  "gpt-image-1",
+                              "mode":  "openai"
+                          },
+                  "provider":  "api",
+                  "glyph_overlay":  {
+                                        "mode":  "composite",
+                                        "enabled":  true
+                                    },
+                  "concurrency":  1
+              }
+}

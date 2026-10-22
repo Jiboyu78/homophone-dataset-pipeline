@@ -1,0 +1,102 @@
+{
+  "paths": {
+    "data_dir": "data",
+    "output_dir": "output",
+    "images_dir": "output/images",
+    "log_file": "output/pipeline.log",
+    "db": "output/pipeline.db"
+  },
+  "ingest": {
+    "files": [
+      "成语大全_整理版(1).json",
+      "homophone_answer_vocab.json"
+    ],
+    "min_len": 2,
+    "max_len_idiom": 8,
+    "max_len_word": 6
+  },
+  "select": {
+    "min_score": 0.55,
+    "min_coverage": 0.6,
+    "max_items": 0,
+    "allow_homophone": true,
+    "deny_words": [
+      "主义", "思想", "精神", "道德", "阶级", "政治", "革命", "哲学",
+      "经济", "文化", "社会", "制度", "理论", "概念", "作风", "品质"
+    ]
+  },
+  "plan": {
+    "provider": "hybrid",
+    "style_preset": "rebus_cartoon",
+    "prompt_style": "tags",
+    "width": 768,
+    "height": 512,
+    "self_consistency_n": 1,
+    "llm": {
+      "base_url": "http://127.0.0.1:8080/v1",
+      "model": "Qwen3-8B-Q5_K_M.gguf",
+      "temperature": 0.6,
+      "timeout_s": 300,
+      "max_retry": 2,
+      "batch": 4,
+      "disable_thinking": true,
+      "hard_max": 200
+    }
+  },
+  "image": {
+    "provider": "sdwebui",
+    "selection_strategy": "balanced",
+    "max_glyph_share": 0.3,
+    "concurrency": 1,
+    "max_retry": 2,
+    "sdwebui": {
+      "base_url": "http://127.0.0.1:7860",
+      "width": 0,
+      "height": 0,
+      "steps": 25,
+      "cfg_scale": 7.0,
+      "sampler_name": "DPM++ 2M",
+      "scheduler": "Karras",
+      "timeout_s": 1200
+    },
+    "glyph_overlay": {
+      "enabled": true,
+      "mode": "composite",
+      "position": "center-left",
+      "size_ratio": 0.55
+    },
+    "postprocess": {
+      "enabled": true,
+      "target_width": 1152,
+      "target_height": 768,
+      "method": "lanczos"
+    },
+    "comfyui": {
+      "base_url": "http://127.0.0.1:8188",
+      "workflow": "workflows/sd15_txt2img_api.json"
+    },
+    "mock": {
+      "draw_labels": false
+    }
+  },
+  "qc": {
+    "ocr": { "enabled": true, "engine": "auto", "min_conf": 0.6, "skip_providers": ["mock"] },
+    "vlm": {
+      "provider": "none",
+      "base_url": "http://127.0.0.1:8080/v1",
+      "model": "",
+      "check_solvability": true
+    },
+    "min_accept_score": 0.75,
+    "require_solvable": false,
+    "max_retry": 2
+  },
+  "package": {
+    "splits": { "train": 0.8, "val": 0.1, "test": 0.1 },
+    "seed": 42,
+    "only_accepted": true,
+    "contact_sheets": true,
+    "dataset_name": "huivision-rebus-zh",
+    "version": "0.1.0"
+  }
+}
